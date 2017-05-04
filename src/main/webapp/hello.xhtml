@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Luigi's Pizza</title>
+</h:head>
+<h:body>
+	<h1>Luigi's Pizza - order online here!</h1>
+
+	<h:form>
+	<div style="width:100%; overflow:hidden">
+	<div style="float:left; width:45%; margin-right:20px">
+		<h2>Choose your base:</h2>
+		<p:selectOneRadio onchange="submit()" id="baseRadio" value="#{pizzaStore.selectedBase}" valueChangeListener="#{pizzaStore.baseChanged}">
+	    	<f:selectItems value="#{pizzaStore.bases.entrySet()}" var="entry"
+    		itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+		</p:selectOneRadio>
+		<h2>Choose your sauce:</h2>
+		<p:selectOneRadio onchange="submit()" id="sauceRadio" value="#{pizzaStore.selectedSauce}" valueChangeListener="#{pizzaStore.sauceChanged}">
+	    	<f:selectItems value="#{pizzaStore.sauces.entrySet()}" var="entry"
+    		itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+		</p:selectOneRadio>
+		<h2>Choose your cheese:</h2>
+		<p:selectOneRadio onchange="submit()" id="cheeseRadio" value="#{pizzaStore.selectedCheese}" valueChangeListener="#{pizzaStore.cheeseChanged}">
+	    	<f:selectItems value="#{pizzaStore.cheeses.entrySet()}" var="entry"
+    		itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+		</p:selectOneRadio>
+		<h2>Choose your toppings:</h2>
+		<p:dataTable id="toppingsTable" value="#{pizzaStore.toppings}" rowIndexVar="rowIndex" var="o">
+			<p:column headerText="Topping">
+				<h:commandButton value="Add 1 #{o.description}" action="#{pizzaStore.addTopping(rowIndex)}"/>
+			</p:column>
+    		<p:column headerText="Cost">
+        		<h:outputText value="#{o.displayCost}" />
+    		</p:column>
+		</p:dataTable>
+		</div>
+		<div style="overflow:hidden; width:50%">
+		<h2>Pizza under construction:</h2>
+		<h:outputText value="#{pizzaStore.currentPizzaString}" escape="false"/>
+		<p/><h:commandButton value="Add pizza to order" action="#{pizzaStore.addCurrentPizza()}"/>
+		<h:commandButton value="New pizza" action="#{pizzaStore.newPizza()}"/>
+		<p/><div style="border-style:dotted"><div style="margin:10px"><h:outputText value="#{pizzaStore.receiptString}" escape="false"/></div></div>
+		</div>
+		</div>
+
+
+
+	</h:form>
+
+	</h:body>
+</html>
